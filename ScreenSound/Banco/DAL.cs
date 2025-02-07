@@ -1,57 +1,54 @@
-﻿using Microsoft.Data.SqlClient;
-using ScreenSound.Modelos;
+﻿using ScreenSound.Modelos;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ScreenSound.Banco
 {
-    internal class ArtistaDAL
+    internal class DAL<T> where T : class
     {
-        private readonly ScreenSoundContext context;
+        protected readonly ScreenSoundContext context;
 
-        public ArtistaDAL(ScreenSoundContext context)
+        public DAL(ScreenSoundContext context)
         {
             this.context = context;
         }
 
-        //Metodo para listar informações da Tabela Artista do Branco
-        public IEnumerable<Artista> Listar()
+        //Expõe o enumerador, que suporta uma iteração simples sobre uma coleção de um tipo especificado.
+        public IEnumerable<T> Listar()
         {
-            return context.Artistas.ToList();
+            return context.Set<T>().ToList();
         }
 
-        public void Adicionar(Artista artista)
+        public void Adicionar(T objeto)
         {
             //Começa a rastrear a entidade fornecida e quaisquer outras entidades alcançáveis ​​que ainda não estejam sendo rastreadas no estado
             //Microsoft.EntityFrameworkCore.EntityState.Added, de modo que elas serão inseridas no banco de dados quando
             //Microsoft.EntityFrameworkCore.DbContext.SaveChanges for chamado.
-            context.Artistas.Add(artista);
+            context.Set<T>().Add(objeto);
             context.SaveChanges();
         }
 
-        public void Atualizar(Artista artista)
+        public void Atualizar(T objeto)
         {
-            context.Artistas.Update(artista);
+            context.Set<T>().Update(objeto);
             context.SaveChanges();
         }
 
-        public void Deletar(Artista artista)
+        public void Deletar(T objeto)
         {
             //Começa a rastrear a entidade fornecida no estado<see cref= "EntityState.Deleted" /> de forma que ela seja removida do banco de dados quando
             //<see cref = "DbContext.SaveChanges()" /> for chamado.
-            context.Artistas.Remove(artista);
+            context.Set<T>().Remove(objeto);
             context.SaveChanges();
         }
 
-        public Artista? RecuperarPeloNome(string nome)
+        public T? RecuperarPor(Func<T, bool> condicao)
         {
-            //Retorna o primeiro elemento de uma sequência que satisfaz uma condição especificada ou um valor padrão se nenhum elemento desse tipo for encontrado.
-            return context.Artistas.FirstOrDefault(a  => a.Nome.Equals(nome));
+            return context.Set<T>().FirstOrDefault(condicao);
         }
+
     }
 }
