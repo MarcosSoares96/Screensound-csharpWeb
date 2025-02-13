@@ -18,19 +18,19 @@ public class Musica
       
     }
 
-    public void ExibirMusicaPorAnoLancamento()
-    {
-        Console.WriteLine($"Musicas {AnoLancamento}");
+    //public void ExibirMusicaPorAnoLancamento()
+    //{
+    //    Console.WriteLine($"Musicas {AnoLancamento}");
 
-        foreach (var musica in Musicas)
-        {
-            Console.WriteLine($"Música: {musica.Nome}");
-        }
-    }
+    //    foreach (var musica in Musicas)
+    //    {
+    //        Console.WriteLine($"Música: {musica.Nome}");
+    //    }
+    //}
 
-    public override string ToString()
-    {
-        return @$"Id: {Id}
-        Nome: {Nome}";
-    }
+    //public override string ToString()
+    //{
+    //    return @$"Id: {Id}
+    //    Nome: {Nome}";
+    //}
 }
